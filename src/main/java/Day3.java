@@ -330,36 +330,66 @@ public class Day3 {
 
     private static final List<List<String>> routeMap = getRouteMap();
 
-    private static int mapWidth = routeMap.get(0).size();
+    private static final List<String> routeMap2 = getRouteMap2();
 
-    private static int mapHeight = routeMap.size();
+    private static final int mapWidth = routeMap.get(0).size();
 
-    //In the map the top left position is 0,0
-    private static int initialX = 0;
-
-    private static int initialY = 0;
-
-    private static int incrementX = 3;
-
-    private static int incrementY = 1;
+    private static final int mapHeight = routeMap.size();
 
     private static int noOfTrees = 0;
+
+    private static int noOfTrees2 = 0;
+
+    //3b
+
+    private static final int[] incrementXArray = new int[]{1, 3, 5, 7, 1};
+
+    private static final int[] incrementYArray = new int[]{1, 1, 1, 1, 2};
 
     public static void main(String[] args) {
 
         //get the map as nested list to easily retrieve the character at set index
 
+
+        //3A
+        //In the map the top left position is 0,0
+        int initialX = 0;
+        int initialY = 0;
         nextStep(initialX, initialY);
 
+        List<Integer> noOfTreesPerDecent = new ArrayList<>();
 
+        //3B
+        for (int index = 0; index < incrementXArray.length; index++) {
+            //reset number of trees
+            noOfTrees2 = 0;
+
+            //get the matching coordinates
+            int x = incrementXArray[index];
+            int y = incrementYArray[index];
+
+            noOfTreesPerDecent.add(nextStepB(initialX, initialY, x, y));
+
+        }
+
+        int total = 1;
+
+        for (int noOfTrees : noOfTreesPerDecent) {
+            total = total * noOfTrees;
+        }
+
+        System.out.println(total);
     }
 
+    //3A
     private static void nextStep(int x, int y) {
 
         //Take the next step if the bottom has not been reached
         if (y < (mapHeight - 1)) {
-            x = x  +incrementX;
-            y = y  + incrementY;
+            int incrementX = 3;
+            x = x + incrementX;
+            int incrementY = 1;
+            y = y + incrementY;
 
             if (x >= mapWidth) {
                 x = x - mapWidth;
@@ -377,6 +407,7 @@ public class Day3 {
         }
     }
 
+    //3A
     private static List<List<String>> getRouteMap() {
 
         List<List<String>> routeMap = new ArrayList<>();
@@ -390,6 +421,38 @@ public class Day3 {
             routeMap.add(horizontalLineAsList);
         }
         return routeMap;
+    }
+    //3B
+    private static int nextStepB(int x, int y, int incrementX, int incrementY) {
+
+        //Take the next step if the bottom has not been reached
+        if (y < (mapHeight - 1)) {
+            x = x + incrementX;
+            y = y + incrementY;
+
+            if (x >= mapWidth) {
+                x = x - mapWidth;
+            }
+
+            String horizontalLine = routeMap2.get(y);
+            String characterAtLine = String.valueOf(horizontalLine.charAt(x));
+
+            if ("#".equals(characterAtLine)) {
+                noOfTrees2++;
+            }
+            return nextStepB(x, y, incrementX, incrementY);
+        } else {
+            return noOfTrees2;
+        }
+
+    }
+
+    //3B
+    private static List<String> getRouteMap2() {
+
+        String[] verticalLines = input.split("\\n");
+
+        return Arrays.asList(verticalLines);
     }
 
 }
