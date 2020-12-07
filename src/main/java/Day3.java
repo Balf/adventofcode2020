@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Day3 {
@@ -326,12 +327,69 @@ public class Day3 {
             "..##...#............#..#......#\n" +
             ".............#...##.....#......\n" +
             ".#...##..##.#.........#.##...#.\n";
+
+    private static final List<List<String>> routeMap = getRouteMap();
+
+    private static int mapWidth = routeMap.get(0).size();
+
+    private static int mapHeight = routeMap.size();
+
+    //In the map the top left position is 0,0
+    private static int initialX = 0;
+
+    private static int initialY = 0;
+
+    private static int incrementX = 3;
+
+    private static int incrementY = 1;
+
+    private static int noOfTrees = 0;
+
     public static void main(String[] args) {
+
+        //get the map as nested list to easily retrieve the character at set index
+
+        nextStep(initialX, initialY);
+
 
     }
 
+    private static void nextStep(int x, int y) {
+
+        //Take the next step if the bottom has not been reached
+        if (y < (mapHeight - 1)) {
+            x = x  +incrementX;
+            y = y  + incrementY;
+
+            if (x >= mapWidth) {
+                x = x - mapWidth;
+            }
+
+            List<String> horizontalLine = routeMap.get(y);
+            String characterAtLine = horizontalLine.get(x);
+
+            if ("#".equals(characterAtLine)) {
+                noOfTrees++;
+            }
+            nextStep(x, y);
+        } else {
+            System.out.println(noOfTrees);
+        }
+    }
+
     private static List<List<String>> getRouteMap() {
-     return new ArrayList<>();
+
+        List<List<String>> routeMap = new ArrayList<>();
+
+        String[] verticalLines = input.split("\\n");
+
+        for (String verticalLine : verticalLines) {
+
+            String[] horizontalLines = verticalLine.split("");
+            List<String> horizontalLineAsList = new ArrayList<>(Arrays.asList(horizontalLines));
+            routeMap.add(horizontalLineAsList);
+        }
+        return routeMap;
     }
 
 }

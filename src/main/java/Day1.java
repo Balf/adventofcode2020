@@ -243,6 +243,7 @@ class Day1 {
         String[] inputNumbers = input.split("\\n");
         Set<Integer> set = Arrays.stream(inputNumbers).map(Integer::parseInt).collect(Collectors.toSet());
 
+        outer:
         for (Integer inputNumber : set) {
             int difference = 2020 - inputNumber;
 
@@ -252,7 +253,7 @@ class Day1 {
                 //System.out.println(difference2);
                 if (set.contains(difference2) && (inputNumber + difference2 + inputNumber2) == 2020) {
                     System.out.println(difference2 * inputNumber2 * inputNumber);
-                    break;
+                    break outer;
                 }
             }
             //break;
