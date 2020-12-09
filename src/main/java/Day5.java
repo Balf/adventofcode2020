@@ -1,3 +1,10 @@
+import com.sun.source.tree.Tree;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 public class Day5 {
 
     public static void main(String[] args) {
@@ -5,18 +12,27 @@ public class Day5 {
 
         int heighestId = 0;
 
+        Set<Integer> seatSet = new TreeSet<>();
+
         for (String boardingPassIdentifier : boardingPassIdentifiers) {
             int rowNumber = parseRowAndColumn("F",0, 127, boardingPassIdentifier.substring(0,7),0);
             int columnNumber = parseRowAndColumn("L",0, 7, boardingPassIdentifier.substring(7),0);
-
             int seatId = ( 8 * rowNumber ) + columnNumber;
+
+            seatSet.add(seatId);
 
             if (seatId > heighestId) {
                 heighestId = seatId;
             }
         }
+        System.out.println("4A: " + heighestId);
 
-        System.out.println(heighestId);
+        for (Integer seatId : seatSet) {
+            if (!seatSet.contains(seatId + 1) && seatSet.contains(seatId + 2)) {
+                System.out.println("4B: " + (seatId + 1));
+            }
+        }
+
     }
 
     private static int parseRowAndColumn(String bottomHalfIndicator, int bottomNumber, int topNumber, String inputString, int characterIndex) {
