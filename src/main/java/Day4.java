@@ -1146,7 +1146,7 @@ public class Day4 {
             if (this.hcl != null) {
                 Pattern pattern = Pattern.compile("#[0-9a-f]{6}");
                 Matcher matcher = pattern.matcher(this.hcl);
-                return matcher.find();
+                return matcher.matches();
             }
             return false;
 
@@ -1157,7 +1157,7 @@ public class Day4 {
             if (this.pid != null) {
                 Pattern pattern = Pattern.compile("[0-9]{9}");
                 Matcher matcher = pattern.matcher(this.pid);
-                return matcher.find();
+                return matcher.matches();
             }
             return false;
         }
